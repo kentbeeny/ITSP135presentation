@@ -1,0 +1,171 @@
+#Kent Beeny
+#ITSP 135 Final Project - Presentation
+#12/11/2019
+#v1.2
+
+#Sources:
+# https://stackoverflow.com/questions/25261647/python-aes-encryption-without-extra-module
+# https://github.com/ricmoo/pyaes/blob/master/pyaes/aes.py
+import pyaes
+import os
+
+#This function will "clear" the screen of the presentation.
+#Note: This only works if running this file as an executable.
+def clear():
+    #Run the clearscreen command.
+    os.system('cls')
+
+#This function just holds the title card for my presentation.
+def title():
+    print("{:^150}".format("Keep It Secret, Keep it Safe: "))
+    print("{:^150}".format("THE ADVANCED ENCRYPTION STANDARD"))
+    print("{:^150}".format("by: kent beeny\n\n\n"))
+
+#This is where I will give my classmates instructions on the Python programs.
+# AESkent is my presentation.
+# AESeveryoneTry and pyaes will be given to everyone to play with.
+#  NOTE: I did not write pyaes, the author is credited in the sources page of my paper.
+# AESsolution will be given to one classmate at the end.
+def snakes():
+    print("{:^150}".format("First things first, let's address the snake in the room."))
+    input()
+
+#This section I will use to explain how keys work.
+def keys():
+    title()
+    print("{:^150}".format("HOW DO KEYS WORK?\n\n"))
+    print("{:^150}".format("A key is used to determine the actions that will be taken during encryption/decryption.\n"))
+    print("{:^150}".format("Longer keys are harder to crack."))
+    input()
+    clear()
+    
+#This function will display the possible number of keys for various bit-length key formats.
+def powerSlide():
+    title()
+    print("{:^150}".format("THE POWER OF POWERS\n\n\n"))
+    #2^56, DES
+    x = 2**56
+    print("{:^150}".format("2 to the 56th power (2^56):"))
+    print("{:^150,}".format(x))
+    #2^128, AES-128
+    x = 2**128
+    print("{:^150}".format("2 to the 128th power (2^128) :"))
+    print("{:^150,}".format(x))
+    #2^192, AES-192
+    x = 2**192
+    print("{:^150}".format("2 to the 192nd power (2^192) :"))
+    print("{:^150,}".format(x))
+    #2^256, AES-256
+    x = 2**256
+    print("{:^150}".format("2 to the 256th power (2^256) :"))
+    print("{:^150,}".format(x))
+    input()
+    clear()
+
+#This function will talk about specifics of AES.
+def moreInfo():
+    title()
+    print("{:^150}".format('WHAT DOES AES "DO"?'))
+    print("{:^150}".format("Slide 1: Keys\n\n\n"))
+    print("{:^150}".format("AES supports, 128, 192, or 256-bit keys."))
+    input()
+    clear()
+    title()
+    print("{:^150}".format('WHAT DOES AES "DO"?'))
+    print("{:^150}".format("Slide 2: Arrays\n\n"))
+    print("{:^150}".format("The data being encrypted has its bits sectioned off into 128-bit blocks."))
+    print("{:^150}".format("These blocks are divided into 4x4 two-dimensional arrays."))
+    print("{:^150}".format("The arrays go top to bottom, left to right (first byte top left, last byte bottom right)."))
+    print("{:^150}".format("Each index in the array holds 8 bits (1 byte).\n\n"))
+    print("{:^150}".format("The key is also placed in an array."))
+    print("{:^150}".format("128-bit keys are in a 4x4 array (same as the data being encrypted)."))
+    print("{:^150}".format("192-bit keys are in a 4x6 array."))
+    print("{:^150}".format("256-bit keys are in a 4x8 array.\n"))
+    print("{:^150}".format("The extra rows are to include the additional bytes in the longer keys."))
+    input()
+    clear()
+    title()
+    print("{:^150}".format('WHAT DOES AES "DO"?'))
+    print("{:^150}".format("Slide 3: Rounds\n\n"))
+    print("{:^150}".format("The length of the key determines how many rounds the data goes through during encryption:"))
+    print("{:^150}".format("AES-128 uses 10 rounds"))
+    print("{:^150}".format("AES-192 uses 12 rounds"))
+    print("{:^150}".format("AES-256 uses 14 rounds"))
+    input()
+    clear()
+    title()
+    print("{:^150}".format('WHAT DOES AES "DO"?'))
+    print("{:^150}".format("Slide 3.1: What's in a Round\n\n"))
+    print("{:^150}".format("The different indexs in the array of bytes being encrypted get mixed, shifted, and modified."))
+    print("{:^150}".format("How specifically is determinded by the value of the key."))
+    print("{:^150}".format("At the end of the round, a new key is generated based off of the previous key.\n"))
+    print("{:^150}".format("The steps taken in the next round are based off this new key."))
+    input()
+    clear()
+    title()
+    print("{:^150}".format('WHAT DOES AES "DO"?'))
+    print("{:^150}".format("Slide 4: Decrypting\n\n"))
+    print("{:^150}".format("How do we do it?"))
+    input()
+    print("{:^150}".format("Go backwards and undo the steps taken to encrypt."))
+    input()
+    clear()
+
+#This function will encrypt the key, then decrypt the key,
+# outputs all this to the screen, and finally gives the key to the class to enter on their own.
+def wrapUp():
+    title()
+    #A 256 bit (32 byte) key.
+    key = "They_won't_guess_this_one_I_bet!"
+    #The message that will be encrypted.
+    secretMessage = "I don't know Kent, I don't think it worked. Wait, actually it did. Salamander."
+    #pyaes.py requires key to be in bytes, so this converts it.
+    key = key.encode('utf-8')
+    aes = pyaes.AESModeOfOperationCTR(key)
+    #Encrypt the message.
+    ciphertext = aes.encrypt(secretMessage)
+    #Show the encrypted data.
+    print("{:^150}".format("Below is the encrypted text:"))
+    print (ciphertext, "\n")
+    input()
+    # DECRYPTION
+    print("{:^150}".format("NOW WE WILL DECRYPT THE MESSAGE!"))
+    input()
+    # CRT mode decryption requires a new instance be created.
+    aes = pyaes.AESModeOfOperationCTR(key)
+
+    #Decrypted data is always binary, so we will decode it to plaintext.
+    decrypted = aes.decrypt(ciphertext).decode('utf-8')
+
+    ###For testing purposes only.
+    ##Will print out "True" if the decrypted text matches the original message.
+    #print (decrypted == secretMessage)
+    #input()
+
+    #Print the decrypted message to the screen.
+    print("{:^150}".format("The decrypted text:\n"))
+    print ("{:^150}".format(decrypted))
+    input()
+
+    #Give the people running AESeveryoneTry the key to see for themselves that it works.
+    print("{:^150}".format("Now test it yourself!"))
+    print("{:^150}".format("The key is:"))
+    #Decode the key back to plaintext so that we can print it can be printed out centered.
+    key = key.decode('utf-8')
+    input()
+    print("{:^150}".format(key))
+    input()
+
+#The main function of this presentation.
+def main():
+    title()
+    snakes()
+    clear()
+    keys()
+    powerSlide()
+    moreInfo()
+    wrapUp()
+
+#Call the main function.
+main()
+
